@@ -1,7 +1,6 @@
 package com.example.gsontodataclass
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gsontodataclass.Adapter.RecyclerAdapter
 import com.example.gsontodataclass.databinding.ActivityMainBinding
 import com.google.gson.GsonBuilder
-import com.google.gson.annotations.SerializedName
 import okhttp3.*
 import java.io.IOException
 
@@ -24,11 +22,9 @@ class MainActivity() : AppCompatActivity() {
         binding.recyclerViewMain.layoutManager = LinearLayoutManager(this)
 
         fetchJson()
-
     }
 
-    fun fetchJson() {
-
+    private fun fetchJson() {
         val url = "https://picsum.photos/v2/list?limit=20"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
@@ -39,13 +35,12 @@ class MainActivity() : AppCompatActivity() {
                 val body = response?.body()?.string()
 
                 val gson = GsonBuilder().create()
-                val home: List<PicsumDataClass> = gson.fromJson(body, Array<PicsumDataClass>::class.java).toList()
+                val home: List<PicsumDataClass> =
+                    gson.fromJson(body, Array<PicsumDataClass>::class.java).toList()
 
                 runOnUiThread {
-                    val RecyclerView = findViewById<RecyclerView>(R.id.recyclerView_main)
-
-                    RecyclerView.adapter =
-                        RecyclerAdapter(home)
+                    val recyclerView = findViewById<RecyclerView>(R.id.recyclerView_main)
+                    recyclerView.adapter = RecyclerAdapter(home)
                 }
             }
 

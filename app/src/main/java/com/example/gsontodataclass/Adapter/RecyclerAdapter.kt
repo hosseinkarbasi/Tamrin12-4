@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.gsontodataclass.PicsumDataClass
 import com.example.gsontodataclass.R
 
-class RecyclerAdapter(val homeFeed: List<PicsumDataClass>) :
+class RecyclerAdapter(private val homeFeed: List<PicsumDataClass>) :
     RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -25,17 +25,14 @@ class RecyclerAdapter(val homeFeed: List<PicsumDataClass>) :
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
-        val video = homeFeed[position]
-        holder?.tvTitle?.text = video.author
-
-        val img = holder?.imgView
+        val photos = homeFeed[position]
+        holder.tvTitle.text = photos.author
 
         Glide
-            .with(holder?.view?.context)
-            .load(video.download_url)
-            .into(img)
+            .with(holder.view.context)
+            .load(photos.download_url)
+            .into(holder.imgView)
     }
-
 }
 
 class CustomViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
